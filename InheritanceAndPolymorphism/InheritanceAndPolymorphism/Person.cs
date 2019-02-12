@@ -17,5 +17,11 @@ namespace InheritanceAndPolymorphism
         {
             return base.ToString();
         }
+
+        public abstract object Clone();
+        public void PrintInheritance()
+        {
+            Console.WriteLine("My Base class is : " + GetType().BaseType);
+        } 
     }
 }

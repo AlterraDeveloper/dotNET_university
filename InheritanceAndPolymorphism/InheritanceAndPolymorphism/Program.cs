@@ -37,10 +37,23 @@ namespace InheritanceAndPolymorphism
                 if (person.GetType() == typeof(StudentWithAdvisor)) cCounter[3]++;
 
                 var p = (person as Student);
-                if(p != null) { p.Year++; }
+                if (p != null) { p.Year++; }
                 person.Print();
-                Console.WriteLine(person + "\n\n");
+                Console.WriteLine(person);
+
+                Console.WriteLine(person.Clone().GetType());
+                
+                person.PrintInheritance();
+                Console.WriteLine("\n\n");
+            }           
+
+            for (int i = 0; i < 3; i++)
+            {
+                Console.WriteLine(Student.GetRandomStudent());
+                Console.WriteLine(Teacher.GetRandomTeacher());
             }
+
+
 
             Console.WriteLine(counter[0] + " " + counter[1] + " " + counter[2] + " " + counter[3] + " ");
             Console.WriteLine(cCounter[0] + " " + cCounter[1] + " " + cCounter[2] + " " + cCounter[3] + " ");
