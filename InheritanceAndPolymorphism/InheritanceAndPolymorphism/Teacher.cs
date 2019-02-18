@@ -8,18 +8,19 @@ namespace InheritanceAndPolymorphism
 {
     class Teacher : Person
     {
-        private static List<Teacher> _teachers = new List<Teacher>(new Teacher[]{
-            new Teacher("QWWERTY","!QAZ"),
-            new Teacher("bnjknjl","34567"),
-            new Teacher("vortbyt","r4vheiov"),
-            new Teacher("6348fyhu4","vhruioe"),
-            new Teacher("nvdfvbjkr","@WSXCDE#")
+        private static List<Teacher> _teachers = new List<Teacher>(new[]{
+            new Teacher("Петров","Петр"),
+            new Teacher("Иванов","Иван"),
+            new Teacher("Семенов","Семен"),
+            new Teacher("Полянова","Полина"),
+            new Teacher("Галкина","Галина")
             }
         );
 
         public static Teacher GetRandomTeacher()
         {
-            return _teachers[new Random().Next(_teachers.Count)];
+            var random = new Random();
+            return _teachers[random.Next(_teachers.Count)];
         }
 
         public Teacher() { }
@@ -28,9 +29,10 @@ namespace InheritanceAndPolymorphism
         {
             Name = name;
             Surname = surname;
+            Students = new List<Student>();
         }
 
-        public List<Teacher> Students { get; set; }
+        public List<Student> Students { get; set; }
 
         public override string ToString()
         {
@@ -39,16 +41,27 @@ namespace InheritanceAndPolymorphism
 
         public override void Print()
         {
-            Console.WriteLine("I'm teacher!");
+            Console.WriteLine($"Я учитель : {Surname} {Name}");
+            Console.WriteLine("Мои студенты : ");
+            if (Students == null || Students.Count == 0)
+                Console.WriteLine("У меня пока нет студентов :(");
+            else
+            {
+                foreach (var student in Students)
+                {
+                    Console.Write("\t");
+                    student.Print();   
+                }
+            }
         }
 
         public override object Clone()
-        {            
+        {      
             return new Teacher()
             {
                 Surname = Surname,
                 Name = Name,
-               Students = Students
+                Students = Students
             };
         }
     }

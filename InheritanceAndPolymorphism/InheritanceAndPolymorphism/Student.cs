@@ -9,28 +9,38 @@ namespace InheritanceAndPolymorphism
     class Student : Person
     {
         private static List<Student> students = new List<Student>(new Student[]{
-            new Student("QWWERTY","!QAZ"),
-            new Student("bnjknjl","34567"),
-            new Student("vortbyt","r4vheiov"),
-            new Student("6348fyhu4","vhruioe"),
-            new Student("nvdfvbjkr","@WSXCDE#")
+            new Student("Симаков","Артем"),
+            new Student("Ульянова","Ульяна"),
+            new Student("Уткин","Вадим"),
+            new Student("Светлова","Светлана"),
+            new Student("Дарьянова","Дарья")
             }
         );
 
         public static Student GetRandomStudent()
         {
-            return students[new Random().Next(students.Count)];
+            var random = new Random();
+            return students[random.Next(students.Count)];
         }
 
-        public int Year { get; set; }
+        private int year;
+        public int Year
+        {
+            get { return year; }
+            set
+            {
+                if (value <= 0 || value > 6) year = 1;
+                else year = value;
+            }
+        }
 
         public Student() { }
 
-        public Student(string surname,string name)
+        public Student(string surname, string name, int year = 1)
         {
             Name = name;
             Surname = surname;
-            Year = 1;
+            this.year = year;
         }
 
         public override string ToString()
@@ -40,7 +50,7 @@ namespace InheritanceAndPolymorphism
 
         public override void Print()
         {
-            Console.WriteLine($"I'm student at {Year} year !");
+            Console.WriteLine($"Я студент : {Surname} {Name} учусь на {Year} курсе");
         }
 
         public override object Clone()
@@ -51,6 +61,6 @@ namespace InheritanceAndPolymorphism
                 Name = Name,
                 Year = Year
             };
-        }       
+        }
     }
 }

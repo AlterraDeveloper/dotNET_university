@@ -12,16 +12,20 @@ namespace InheritanceAndPolymorphism
         {
             List<Person> myList = new List<Person>();
 
-            Person teach = new Teacher("travolta", "john");
+            Person teach = new Teacher("Поляков", "Денис");
+            for(int i=0;i<3;i++)
+            ((Teacher)teach).Students.Add(Student.GetRandomStudent());
 
             int[] counter = new int[4];
             int[] cCounter = new int[4];
 
-            myList.Add(new Teacher("travolta", "john"));
-            myList.Add(new Student("lebovski", "bar"));
-            myList.Add(new Teacher("qwerty", "ytrewq"));
-            myList.Add(new StudentWithAdvisor("fred", "demand",(Teacher)teach));
-            myList.Add(new StudentWithAdvisor("mike", "mask",new Teacher("Big","D")));
+            myList.Add((Teacher)teach);
+            myList.Add(Student.GetRandomStudent());
+            var t = Teacher.GetRandomTeacher();
+            t.Students.Add(new Student("Корешкова", "Виолетта"));
+            myList.Add(t);
+            myList.Add(new StudentWithAdvisor("Колодцева", "Марина", new Teacher("Степанов", "Степан")));
+            myList.Add(new StudentWithAdvisor("Корешкова", "Виолетта",Teacher.GetRandomTeacher()));
             
             foreach(var person in myList)
             {
@@ -38,25 +42,20 @@ namespace InheritanceAndPolymorphism
 
                 var p = (person as Student);
                 if (p != null) { p.Year++; }
-                person.Print();
-                Console.WriteLine(person);
 
-                Console.WriteLine(person.Clone().GetType());
-                
+                person.Print();
                 person.PrintInheritance();
                 Console.WriteLine("\n\n");
-            }           
-
-            for (int i = 0; i < 3; i++)
-            {
-                Console.WriteLine(Student.GetRandomStudent());
-                Console.WriteLine(Teacher.GetRandomTeacher());
             }
 
-
-
-            Console.WriteLine(counter[0] + " " + counter[1] + " " + counter[2] + " " + counter[3] + " ");
-            Console.WriteLine(cCounter[0] + " " + cCounter[1] + " " + cCounter[2] + " " + cCounter[3] + " ");
+                Console.WriteLine(
+                    $"Количество объектов типа Person (используя is) {counter[0]} (используя typeof) {cCounter[0]}");
+                Console.WriteLine(
+                    $"Количество объектов типа Teacher (используя is) {counter[1]} (используя typeof) {cCounter[1]}");
+                Console.WriteLine(
+                    $"Количество объектов типа Student (используя is) {counter[2]} (используя typeof) {cCounter[2]}");
+                Console.WriteLine(
+                    $"Количество объектов типа StudentWithAdvisor (используя is) {counter[3]} (используя typeof) {cCounter[3]}");
             Console.ReadLine();
         }
     }
