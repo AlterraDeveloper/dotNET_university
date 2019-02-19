@@ -12,7 +12,7 @@ namespace InheritanceAndPolymorphism
         {
             List<Person> myList = new List<Person>();
 
-            Person teach = new Teacher("Поляков", "Денис");
+            Person teach = new Teacher("Денисов" , "Денис");
             for(int i=0;i<3;i++)
             ((Teacher)teach).Students.Add(Student.GetRandomStudent());
 
@@ -48,14 +48,14 @@ namespace InheritanceAndPolymorphism
                 Console.WriteLine("\n\n");
             }
 
-                Console.WriteLine(
-                    $"Количество объектов типа Person (используя is) {counter[0]} (используя typeof) {cCounter[0]}");
-                Console.WriteLine(
-                    $"Количество объектов типа Teacher (используя is) {counter[1]} (используя typeof) {cCounter[1]}");
-                Console.WriteLine(
-                    $"Количество объектов типа Student (используя is) {counter[2]} (используя typeof) {cCounter[2]}");
-                Console.WriteLine(
-                    $"Количество объектов типа StudentWithAdvisor (используя is) {counter[3]} (используя typeof) {cCounter[3]}");
+            Console.WriteLine(
+                $"Количество объектов типа Person (используя is) {counter[0]} (используя typeof) {cCounter[0]}");
+            Console.WriteLine(
+                $"Количество объектов типа Teacher (используя is) {counter[1]} (используя typeof) {cCounter[1]}");
+            Console.WriteLine(
+                $"Количество объектов типа Student (используя is) {counter[2]} (используя typeof) {cCounter[2]}");
+            Console.WriteLine(
+                $"Количество объектов типа StudentWithAdvisor (используя is) {counter[3]} (используя typeof) {cCounter[3]}");
             Console.ReadLine();
         }
     }

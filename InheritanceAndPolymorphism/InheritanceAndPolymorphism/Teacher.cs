@@ -64,5 +64,15 @@ namespace InheritanceAndPolymorphism
                 Students = Students
             };
         }
+
+        public static bool operator ==(Teacher one, Teacher another)
+        {
+            return (one.Name == another.Name && one.Surname == another.Surname);
+        }
+
+        public static bool operator !=(Teacher one, Teacher another)
+        {
+            return !(one == another);
+        }
     }
 }

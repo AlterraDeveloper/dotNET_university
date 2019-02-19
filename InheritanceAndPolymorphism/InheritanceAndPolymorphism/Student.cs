@@ -62,5 +62,30 @@ namespace InheritanceAndPolymorphism
                 Year = Year
             };
         }
+
+        public override bool Equals(object obj)
+        {
+            var newObj = (obj as Student);
+            if (object.ReferenceEquals(newObj, null)) return false;
+            return (Name == newObj.Name && Surname == newObj.Surname && Year == newObj.Year);
+        }
+
+        public static bool operator ==(Student one,Student another)        
+        {
+            if (object.ReferenceEquals(one, another)){
+                return true;
+            }
+            if(object.ReferenceEquals(one,null) || object.ReferenceEquals(one, null))
+            {
+                return false;
+            }
+            return one.Equals(another);
+        }
+
+        public static bool operator !=(Student one,Student another)
+        {
+            return !(one ==another);
+        }
+
     }
 }
