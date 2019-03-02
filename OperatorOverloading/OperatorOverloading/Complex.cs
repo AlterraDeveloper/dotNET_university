@@ -39,9 +39,18 @@ namespace OperatorOverloading
                 (one.img * another.real - one.real * another.img) / (another.real * another.real + another.img * another.img));
         }
 
+        private string WithSign(double value)
+        {
+            return value >= 0 ? "+" + value.ToString("N") : value.ToString("N");
+        }
         public override string ToString()
         {
-            return ((int)real).ToString("-#;0") + ((int)img).ToString("+#;-#") +"i";
+            return WithSign(real) + "i" + WithSign(img);
+        }
+
+        public static explicit operator double(Complex number)
+        {
+            return number.real + Math.Pow(number.img, 2) * (-1);
         }
     }
 }

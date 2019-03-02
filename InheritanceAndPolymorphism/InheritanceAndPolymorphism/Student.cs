@@ -84,7 +84,7 @@ namespace InheritanceAndPolymorphism
 
         public static bool operator !=(Student one,Student another)
         {
-            return !(one ==another);
+            return !(one == another);
         }
 
     }
