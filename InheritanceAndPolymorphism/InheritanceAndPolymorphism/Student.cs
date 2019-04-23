@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InheritanceAndPolymorphism
 {
-    class Student : Person
+    class Student : Person, IPrintable, IComparable<Student>
     {
         private static List<Student> students = new List<Student>(new Student[]{
             new Student("Симаков","Артем"),
@@ -70,21 +70,29 @@ namespace InheritanceAndPolymorphism
             return (Name == newObj.Name && Surname == newObj.Surname && Year == newObj.Year);
         }
 
-        public static bool operator ==(Student one,Student another)        
+        public static bool operator ==(Student one, Student another)
         {
-            if (object.ReferenceEquals(one, another)){
+            if (object.ReferenceEquals(one, another))
+            {
                 return true;
             }
-            if(object.ReferenceEquals(one,null) || object.ReferenceEquals(one, null))
+            if (object.ReferenceEquals(one, null) || object.ReferenceEquals(one, null))
             {
                 return false;
             }
             return one.Equals(another);
         }
 
-        public static bool operator !=(Student one,Student another)
+        public static bool operator !=(Student one, Student another)
         {
             return !(one == another);
+        }
+
+        public int CompareTo(Student other)
+        {
+            if (this.Year > other.Year) return 1;
+            else if (this.Year < other.Year) return -1;
+            return 0;
         }
 
     }

@@ -13,21 +13,30 @@ namespace Indexers
 
         public MyDictionary()
         {
-            keys = new HashSet<K>();
-            values = new HashSet<V>();
+            keys = new List<K>();
+            values = new List<V>();
         }
-        private HashSet<K> keys;
-        private HashSet<V> values;
+        private List<K> keys;
+        private List<V> values;
         public V this[K key]
         {
-            get {
-                var index = keys.ToList().IndexOf(key);
+            get
+            {
+                var index = keys.IndexOf(key);
                 return index < 0 ? default(V) : values.ToList()[index];
             }
             set
             {
-                keys.Add(key);
-                values.Add(value);
+                if (keys.Contains(key))
+                {
+                    int keyIndex = keys.IndexOf(key);
+                    values[keyIndex] = value;
+                }
+                else
+                {
+                    keys.Add(key);
+                    values.Add(value);
+                }
             }
         }
     }

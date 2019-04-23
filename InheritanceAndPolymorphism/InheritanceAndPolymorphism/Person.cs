@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InheritanceAndPolymorphism
 {
-    abstract class Person
+    abstract class Person : IPrintable
     {
         public string Name{get;set;}
         public string Surname { get; set; }
