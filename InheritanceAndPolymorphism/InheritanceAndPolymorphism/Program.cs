@@ -10,6 +10,8 @@ namespace InheritanceAndPolymorphism
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
             List<Person> myList = new List<Person>();
 
             Person teach = new Teacher("Денисов", "Денис");
@@ -59,18 +61,25 @@ namespace InheritanceAndPolymorphism
 
             //((Student)myList[3]).Year++;
 
-            var students = new List<Student>();
-            students.Add(new Student("a", "b",2));
-            students.Add(new Student("c", "d",2));
-            students.Add(new Student("e", "f",1));
-            students.Add(new Student("g", "h",3));
+            //var students = new List<Student>();
+            var students = new  PersonCollection();
+            students.Add(new Student("Милонова","Анна",2));
+            students.Add(new Student("Антонов","Денис",4));
+            students.Add(new Student("Яценко", "Алексей", 1));
+            students.Add(new Student("Васильев", "Олег", 3));
 
             //Array.Sort<Student>(students.ToArray<Student>());
-            students.Sort();
+            //students.Sort();
+            //students.Sort(new Student.StudentComparer("Year"));
+            //students.Sort(new Student.StudentComparer("Name"));
+            //students.Sort(new Student.StudentComparer("Surname"));
 
             foreach (var person in students)
             {
-                Method(person);
+                using (person)
+                {
+                    Method(person);
+                }
             }
 
             //Console.WriteLine(((Student)myList[4]).CompareTo((Student)myList[3]));

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InheritanceAndPolymorphism
 {
-    class Student : Person, IPrintable, IComparable<Student>
+    class Student : Person, IPrintable, IComparable<Student>,ICloneable
     {
         private static List<Student> students = new List<Student>(new Student[]{
             new Student("Симаков","Артем"),
@@ -93,6 +93,30 @@ namespace InheritanceAndPolymorphism
             if (this.Year > other.Year) return 1;
             else if (this.Year < other.Year) return -1;
             return 0;
+        }
+
+        public class StudentComparer : IComparer<Student>
+        {
+            private string comparisonField;
+
+            public StudentComparer(string fieldName)
+            {
+                comparisonField = fieldName;
+            }
+
+            public int Compare(Student x, Student y)
+            {
+                switch (comparisonField)
+                {
+                    case "Name":
+                        return x.Name.CompareTo(y.Name);
+                    case "Surname":
+                        return x.Surname.CompareTo(y.Surname);
+                    case "Year":
+                        return x.Year.CompareTo(y.Year);
+                    default: return 0;
+                }
+            }
         }
 
     }

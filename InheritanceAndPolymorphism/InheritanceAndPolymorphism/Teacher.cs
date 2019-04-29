@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InheritanceAndPolymorphism
 {
-    class Teacher : Person
+    class Teacher : Person, ICloneable
     {
         private static List<Teacher> _teachers = new List<Teacher>(new[]{
             new Teacher("Петров","Петр"),
@@ -50,18 +50,18 @@ namespace InheritanceAndPolymorphism
                 foreach (var student in Students)
                 {
                     Console.Write("\t");
-                    student.Print();   
+                    student.Print();
                 }
             }
         }
 
         public override object Clone()
-        {      
+        {
             return new Teacher()
             {
                 Surname = Surname,
                 Name = Name,
-                Students = Students
+                Students = new List<Student>(Students)
             };
         }
 
