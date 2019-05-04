@@ -62,10 +62,11 @@ namespace InheritanceAndPolymorphism
             //((Student)myList[3]).Year++;
 
             //var students = new List<Student>();
-            var students = new  PersonCollection();
+            //var students = new  PersonCollection();
+            var students = new  List<Student>();
             students.Add(new Student("Милонова","Анна",2));
             students.Add(new Student("Антонов","Денис",4));
-            students.Add(new Student("Яценко", "Алексей", 1));
+            students.Add(new Student("Яценко", "Алексей", 5));
             students.Add(new Student("Васильев", "Олег", 3));
 
             //Array.Sort<Student>(students.ToArray<Student>());
@@ -74,14 +75,17 @@ namespace InheritanceAndPolymorphism
             //students.Sort(new Student.StudentComparer("Name"));
             //students.Sort(new Student.StudentComparer("Surname"));
 
-            foreach (var person in students)
-            {
-                using (person)
-                {
-                    Method(person);
-                }
-            }
+            //foreach (var person in students)
+            //{
+            //    using (person)
+            //    {
+            //        Method(person);
+            //    }
+            //}
 
+            Console.Out.WriteLine(MinIndex(students.ToArray()));
+            students.RemoveRange(0,students.Count);
+            Console.Out.WriteLine("\n" + MinIndex(students.ToArray()));
             //Console.WriteLine(((Student)myList[4]).CompareTo((Student)myList[3]));
 
             Console.ReadLine();
@@ -91,6 +95,15 @@ namespace InheritanceAndPolymorphism
         {
             iface.Print();
             Console.WriteLine();
+        }
+
+
+        static Tuple<int, T> MinIndex<T>(T[] comparableArray) where T : IComparable<T>
+        {
+            if(comparableArray.Length == 0) return new Tuple<int, T>(-1,default(T));
+            var minItem = comparableArray.Min();
+            var minIndex = comparableArray.ToList().IndexOf(minItem);
+            return Tuple.Create(minIndex, minItem);
         }
     }
 }
