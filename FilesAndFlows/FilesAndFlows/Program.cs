@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace FilesAndFlows
@@ -37,13 +38,51 @@ namespace FilesAndFlows
             Console.WriteLine(output);
             output = Encoding.GetEncoding("cp866").GetString(File.ReadAllBytes("./cp866.txt"));
             Console.WriteLine(output + "\n----------------------------------------------------");
-            
+
             Console.WriteLine("Text in koi8-u\n");
             output = File.ReadAllText("./koi8.txt");
             Console.WriteLine(output);
             output = Encoding.GetEncoding("koi8-u").GetString(File.ReadAllBytes("./koi8.txt"));
             Console.WriteLine(output + "\n----------------------------------------------------");
 
+            Console.WriteLine("Text in windows-1251\n");
+            output = File.ReadAllText("./windows.txt");
+            Console.WriteLine(output);
+            output = Encoding.GetEncoding("windows-1251").GetString(File.ReadAllBytes("./windows.txt"));
+            Console.WriteLine(output + "\n----------------------------------------------------");
+
+            Console.WriteLine("Text in utf-8\n");
+            output = File.ReadAllText("./utf8.txt");
+            Console.WriteLine(output);
+            output = Encoding.GetEncoding("utf-8").GetString(File.ReadAllBytes("./utf8.txt"));
+            Console.WriteLine(output + "\n----------------------------------------------------");
+
+            Console.WriteLine("Text in utf-16\n");
+            output = File.ReadAllText("./utf16.txt");
+            Console.WriteLine(output);
+            output = Encoding.GetEncoding("utf-16").GetString(File.ReadAllBytes("./utf16.txt"));
+            Console.WriteLine(output + "\n----------------------------------------------------");
+
+            var stringsInFile = File.ReadAllLines("./numbers.txt");
+            Regex numberFilter = new Regex(@"\b\d+(\.|,)?\d*\b");
+            var numbersInFile = new List<double>();
+            foreach (var line in stringsInFile)
+            {
+                var matches = numberFilter.Matches(line);
+                foreach (Match match in matches)
+                {
+                    try
+                    {
+                        numbersInFile.Add(double.Parse(match.Value));
+                    }
+                    catch (FormatException e)
+                    {
+                        numbersInFile.Add(double.Parse(match.Value, System.Globalization.CultureInfo.InvariantCulture));
+
+                    }
+                }
+            }
+            Console.WriteLine("Sum in file numbers.txt = " + numbersInFile.Sum());
 
             Console.ReadKey();
         }
