@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Formatters.Soap;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace InheritanceAndPolymorphism
 {
@@ -24,7 +31,7 @@ namespace InheritanceAndPolymorphism
             myList.Add((Teacher)teach);
             myList.Add(Student.GetRandomStudent());
             var t = Teacher.GetRandomTeacher();
-            t.Students.Add(new Student("Корешкова", "Виолетта"));
+            t.Students.Add(new Student("Корешкова", "Виолетта",5));
             myList.Add(t);
             myList.Add(new StudentWithAdvisor("Колодцева", "Марина", new Teacher("Степанов", "Степан")));
             myList.Add(new StudentWithAdvisor("Корешкова", "Виолетта", Teacher.GetRandomTeacher()));
@@ -63,11 +70,81 @@ namespace InheritanceAndPolymorphism
 
             //var students = new List<Student>();
             //var students = new  PersonCollection();
-            var students = new  List<Student>();
-            students.Add(new Student("Милонова","Анна",2));
-            students.Add(new Student("Антонов","Денис",4));
+            var students = new List<Student>();
+            students.Add(new Student("Милонова", "Анна", 2));
+            students.Add(new Student("Антонов", "Денис", 4));
             students.Add(new Student("Яценко", "Алексей", 5));
             students.Add(new Student("Васильев", "Олег", 3));
+
+            #region BinarySerialization
+
+            #region forStudent
+
+            //Stream stream = File.Open("Student.dat", FileMode.Create);
+
+            //BinaryFormatter bf = new BinaryFormatter();
+
+            //bf.Serialize(stream,students[0]);
+
+            //stream.Close();
+
+            //students[0] = null;
+
+            //stream = File.Open("Student.dat", FileMode.Open);
+
+            //bf = new BinaryFormatter();
+
+            //students[0] = (Student) bf.Deserialize(stream);
+
+            //stream.Close();
+
+            #endregion
+
+            #region forTeacher
+
+            //Stream stream = File.Open("Teacher.dat", FileMode.Create);
+            //var bf = new BinaryFormatter();
+            //bf.Serialize(stream, (Teacher)myList[2]);
+            //stream.Close();
+
+            //myList[2] = null;
+
+            //stream = File.Open("Teacher.dat", FileMode.Open);
+            //bf = new BinaryFormatter();
+            //myList[2] = (Teacher)bf.Deserialize(stream);
+            //myList[2].Print();
+            //stream.Close();
+            #endregion
+
+            #endregion
+
+            #region XmlSerialization
+
+            //XmlSerializer xmlSerializer = new XmlSerializer(typeof(Student));
+
+            //students[0].Year++;
+
+            //using (TextWriter textWriter = new StreamWriter("Student.xml"))
+            //{
+            //    xmlSerializer.Serialize(textWriter, students[0]);
+            //}
+
+            //XmlSerializer deserializer = new XmlSerializer(typeof(Student));
+
+            //students[0] = null;
+            //var textReader = new StreamReader("Student.xml");
+            //students[0] = (Student)deserializer.Deserialize(textReader);
+            //textReader.Close();
+            //students[0].Print();
+
+            //using (Stream fs = new FileStream("Students.xml", FileMode.Create))
+            //{
+            //    var xmlSer = new XmlSerializer(typeof(List<Student>));
+            //    xmlSer.Serialize(fs, students);
+            //}
+
+            #endregion
+
 
             //Array.Sort<Student>(students.ToArray<Student>());
             //students.Sort();
@@ -83,10 +160,60 @@ namespace InheritanceAndPolymorphism
             //    }
             //}
 
-            Console.Out.WriteLine(MinIndex(students.ToArray()));
-            students.RemoveRange(0,students.Count);
-            Console.Out.WriteLine("\n" + MinIndex(students.ToArray()));
+            //Console.Out.WriteLine(MinIndex(students.ToArray()));
+            //students.RemoveRange(0,students.Count);
+            //Console.Out.WriteLine("\n" + MinIndex(students.ToArray()));
             //Console.WriteLine(((Student)myList[4]).CompareTo((Student)myList[3]));
+
+            #region serializationLinkedList
+
+            //var linkedList = new Node(5,new Node(4,new Node(3,new Node(2,new Node(1)))));
+
+            //Method(linkedList);
+
+            //var soapFormatter = new SoapFormatter();
+
+            //using (FileStream fs = new FileStream("LinkedList.xml", FileMode.OpenOrCreate))
+            //{
+            //    soapFormatter.Serialize(fs,linkedList);
+            //}
+
+            //linkedList = null;
+            //var soapFormatter2 = new SoapFormatter();
+
+            //var  fsReader = new FileStream("LinkedList.xml",FileMode.Open);
+            //linkedList = (Node) soapFormatter2.Deserialize(fsReader);
+            //Method(linkedList);
+            //fsReader.Close();
+
+            #endregion
+
+
+            #region DataContractSerialize
+
+            ////Serializing
+
+            //FileStream writer = new FileStream("StudentDC.xml", FileMode.Create);
+            //DataContractSerializer ser =
+            //    new DataContractSerializer(typeof(Student));
+            //ser.WriteObject(writer, students[3]);
+            //writer.Close();
+
+            ////Deserializing
+
+            //FileStream fs = new FileStream("StudentDC.xml",
+            //    FileMode.Open);
+            //XmlDictionaryReader reader =
+            //    XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+            //DataContractSerializer ser2 = new DataContractSerializer(typeof(Student));
+
+            //Student studentFromDataContract =
+            //    (Student)ser2.ReadObject(reader, true);
+            //reader.Close();
+            //fs.Close();
+            //Method(studentFromDataContract);
+
+            #endregion
 
             Console.ReadLine();
         }
@@ -100,7 +227,7 @@ namespace InheritanceAndPolymorphism
 
         static Tuple<int, T> MinIndex<T>(T[] comparableArray) where T : IComparable<T>
         {
-            if(comparableArray.Length == 0) return new Tuple<int, T>(-1,default(T));
+            if (comparableArray.Length == 0) return new Tuple<int, T>(-1, default(T));
             var minItem = comparableArray.Min();
             var minIndex = comparableArray.ToList().IndexOf(minItem);
             return Tuple.Create(minIndex, minItem);

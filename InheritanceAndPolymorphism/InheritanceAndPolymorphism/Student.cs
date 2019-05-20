@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
 
 namespace InheritanceAndPolymorphism
 {
-    class Student : Person, IPrintable, IComparable<Student>,ICloneable
+    [DataContract(Name = "Student")]
+    [Serializable]
+    public class Student : Person, IPrintable, IComparable<Student>,ICloneable//,ISerializable
     {
         private static List<Student> students = new List<Student>(new Student[]{
             new Student("Симаков","Артем"),
@@ -23,7 +28,10 @@ namespace InheritanceAndPolymorphism
             return students[random.Next(students.Count)];
         }
 
+        [DataMember]
+        [XmlAttribute]
         private int year;
+
         public int Year
         {
             get { return year; }
@@ -68,6 +76,20 @@ namespace InheritanceAndPolymorphism
             var newObj = (obj as Student);
             if (object.ReferenceEquals(newObj, null)) return false;
             return (Name == newObj.Name && Surname == newObj.Surname && Year == newObj.Year);
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Name",Name);
+            info.AddValue("Surname",Surname);
+           // info.AddValue("Year",Year);
+        }
+
+        public Student(SerializationInfo info, StreamingContext context)
+        {
+            Name = (string) info.GetValue("Name", typeof(string));
+            Surname = (string) info.GetValue("Surname", typeof(string));
+            //Year = (int) info.GetValue("Year", typeof(int));
         }
 
         public static bool operator ==(Student one, Student another)
