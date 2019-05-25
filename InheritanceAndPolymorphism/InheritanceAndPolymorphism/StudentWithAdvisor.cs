@@ -20,7 +20,7 @@ namespace InheritanceAndPolymorphism
         public override void Print()
         {
             base.Print();
-            Console.WriteLine($"Мой преподаватель : {Teacher.Surname} {Teacher.Name}");
+            Console.WriteLine($"Мой преподаватель : {Teacher?.Surname} {Teacher?.Name}");
         }
 
         public override object Clone()
